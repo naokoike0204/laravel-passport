@@ -14,6 +14,7 @@ class Customer extends Model
     protected $fillable = [
         'name',
         'age',
+        'gender_id',
         'prefecture_id',
         'address',
         'hobby_id',
@@ -21,38 +22,6 @@ class Customer extends Model
         'image',
     ];
 
-    /**
-     * 登録処理
-     */
-    public function InsertCustomer($request)
-    {
-        // リクエストデータを基に管理マスターユーザーに登録する
-        return $this->create([
-            'name' => $request->name,
-            'age' => $request->age,
-            'gender_id' => $request->gender_id,
-            'prefecture_id' => $request->prefecture_id,
-            'address' => $request->address,
-            'pr_description' => $request->pr_description,
-        ]);
-    }
 
-    /**
-     * 更新処理
-     */
-    public function updateCustomer($customer_id,$request)
-    {
-        $customer = $this->find($customer_id);
-        $customer->fill([
-            'name' => $request->name,
-            'age' => $request->age,
-            'gender_id' => $request->gender_id,
-            'prefecture_id' => $request->prefecture_id,
-            'address' => $request->address,
-            'pr_description' => $request->pr_description,
-        ]);
-        return $customer->save();
-
-    }
 
 }

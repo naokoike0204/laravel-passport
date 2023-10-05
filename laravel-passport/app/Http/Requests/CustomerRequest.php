@@ -28,6 +28,7 @@ class CustomerRequest extends FormRequest
             'prefecture_id' => 'required|integer',
             'address' => 'required|max:255',
             'pr_description' => 'required|max:2000',
+            'hobby_id.*' =>'integer|distinct',
         ];
     }
 }
