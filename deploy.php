@@ -8,7 +8,7 @@ require 'recipe/laravel.php';
 set('application', 'laravel-passport');
 
 // Project repository
-set('repository', 'https://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@github.com/naokoike0204/laravel-passport.git');
+set('repository', 'https://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@github.com/naokoike0204/laravel-passport.git');
 
 
 // [Optional] Allocate tty for git clone. Default value is false.
@@ -27,8 +27,8 @@ set('clear_paths', []);
 // Hosts
 
 host('laravel.test')
-    ->stage('production')
-    ->user('ec2-user')
+   // ->stage('production')
+    //->user('ec2-user')
     ->set('branch', 'master')
     ->set('deploy_path', '/var/www/{{application}}');
 
