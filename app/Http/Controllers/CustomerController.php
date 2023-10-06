@@ -32,7 +32,7 @@ class CustomerController extends Controller
     }
 
     //詳細、編集画面の表示
-    public function edit($customer_id){
+    public function edit($customer_id=0){
         if (Auth::check()) {
             $customer = app()->make('CustomerService')->getCustomerIdFirst($customer_id);
 
@@ -47,12 +47,12 @@ class CustomerController extends Controller
             "customer" => $customer,
             "genders"=>$genders,
             "hobbies"=>$hobbies,
-            "prefecture_name"=>$customer->prefecture_name->name
+            "prefecture_name"=>$customer->prefecture_name->name ?? ''
         ]);
     }
 
     //データの更新、新規登録処理
-    public function update($customer_id, CustomerRequest $request):RedirectResponse{
+    public function update($customer_id=0, CustomerRequest $request):RedirectResponse{
 
         // バリデーション済みデータの取得
         $validated = $request->validated();

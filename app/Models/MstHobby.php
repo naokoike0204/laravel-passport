@@ -9,7 +9,4 @@ class MstHobby extends Model
 {
     use HasFactory;
 
-
-
-
 }

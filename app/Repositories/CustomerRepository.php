@@ -26,9 +26,7 @@ class CustomerRepository implements CustomerRepositoryInterface
         }
     }
 
-/**
-     * 登録処理
-     */
+    //登録処理
     public function insertCustomerProfile($request)
     {
         // リクエストデータを基に管理マスターユーザーに登録する
@@ -44,9 +42,7 @@ class CustomerRepository implements CustomerRepositoryInterface
 
     }
 
-    /**
-     * 更新処理
-     */
+    //更新処理
     public function updateCustomerProfile($customer_id,$request)
     {
         $customer = Customer::find($customer_id);
@@ -63,6 +59,7 @@ class CustomerRepository implements CustomerRepositoryInterface
 
     }
 
+    //削除
     public function deleteCustomerProfile($customer_id){
         $customer = Customer::where('id','=',$customer_id)->first();
       if(!empty($customer)){

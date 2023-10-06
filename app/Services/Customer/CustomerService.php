@@ -7,6 +7,7 @@ use App\Repositories\CustomerRepository;
 use App\Repositories\MstGenderRepository;
 use App\Repositories\MstHobbyRepository;
 use App\Repositories\MstPrefectureRepository;
+Use App\Services\S3\S3Service;
 
 class CustomerService{
 
@@ -15,6 +16,7 @@ class CustomerService{
     private $mstGenderRepository;
     private $mstHobbyRepository;
     private $mstPrefectureRepository;
+    private $S3service;
 
     public function __construct(
         CustomerRepository $customerRepository,
@@ -22,6 +24,7 @@ class CustomerService{
         MstGenderRepository $mstGenderRepository,
         MstHobbyRepository $mstHobbyRepository,
         MstPrefectureRepository $mstPrefectureRepository,
+        S3Service $S3service,
     )
     {
         $this->customerRepository = $customerRepository;
@@ -29,6 +32,7 @@ class CustomerService{
         $this->mstGenderRepository = $mstGenderRepository;
         $this->mstHobbyRepository = $mstHobbyRepository;
         $this->mstPrefectureRepository = $mstPrefectureRepository;
+        $this->S3service = $S3service;
 
     }
 
@@ -49,24 +53,7 @@ class CustomerService{
                 $hobby_list[]=$hobby->id;
             }
             $customer->hobby_id = $hobby_list;
-            $s3 = app()->make('S3Service');
-            $customer->image_url = $s3->getS3FileUrl($customer->image,10);
-            return $customer;
-        }else{//新規の場合
-            $customer = (object)[
-                'id'=>0,
-                'name' => '',
-                'age' => '',
-                'gender_id' => '',
-                'prefecture_id' => '',
-                'address' => '',
-                'pr_description' => '',
-                'hobby_id' =>[],
-                'image'=>'',
-                'image_url'=>''
-            ];
-            $customer->prefecture_name = (object)[];
-            $customer->prefecture_name->name = '';
+            $customer->image_url = $this->S3service->getS3FileUrl($customer->image,10);
             return $customer;
         }
     }
@@ -84,8 +71,7 @@ class CustomerService{
 
     //顧客詳細の新規登録
     public function insertCustomerProfile($request){
-        $s3 = app()->make('S3Service');
-        $s3_image_path = $s3->addS3File($request);
+        $s3_image_path = $this->S3service->addS3File($request);
         if($s3_image_path){
             $request->image = $s3_image_path;
         }
@@ -96,8 +82,7 @@ class CustomerService{
 
     //顧客詳細の更新
     public function updateCustomerProfile($customer_id,$request){
-        $s3 = app()->make('S3Service');
-        $s3_image_path = $s3->addS3File($request);
+        $s3_image_path = $this->S3service->addS3File($request);
         if($s3_image_path){
             $request->image = $s3_image_path;
         }

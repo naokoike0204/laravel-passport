@@ -16,6 +16,7 @@ class CustomerHobbyRepository implements CustomerHobbyRepositoryInterface
         }
     }
 
+    //顧客の趣味を新規登録
     public function insertCustomerHobby($customer_id,$hobby_id=[]){
         if(!empty($hobby_id) && !empty($customer_id)){
             foreach($hobby_id as $hobby){
@@ -27,6 +28,7 @@ class CustomerHobbyRepository implements CustomerHobbyRepositoryInterface
         }
     }
 
+    //顧客の趣味を更新
     public function updateCustomerHobby($customer_id,$hobby_id=[]){
         if(!empty($customer_id)){
             CustomerHobby::where('customer_id', $customer_id)->delete();
