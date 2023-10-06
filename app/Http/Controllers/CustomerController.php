@@ -16,7 +16,12 @@ class CustomerController extends Controller
 
     }
 
-    //一覧
+
+    /**
+     * 顧客一覧
+     *
+     * @return View
+     */
     public function index():View{
 
         $customerService = app()->make('CustomerService');
@@ -31,7 +36,12 @@ class CustomerController extends Controller
         ]);
     }
 
-    //詳細、編集画面の表示
+    /**
+     * 詳細、編集画面の表示
+     *
+     * @param integer $customer_id
+     * @return View
+     */
     public function edit($customer_id=0){
         if (Auth::check()) {
             $customer = app()->make('CustomerService')->getCustomerIdFirst($customer_id);
@@ -51,13 +61,17 @@ class CustomerController extends Controller
         ]);
     }
 
-    //データの更新、新規登録処理
+    /**
+     * データの更新、新規登録処理
+     *
+     * @param integer $customer_id
+     * @param CustomerRequest $request
+     * @return RedirectResponse
+     */
     public function update($customer_id=0, CustomerRequest $request):RedirectResponse{
 
         // バリデーション済みデータの取得
         $validated = $request->validated();
-        //dd($request->file('image'));
-//dd($request);
 
         if(!empty($customer_id)){
             $registerCustomer = app()->make('CustomerService')->updateCustomerProfile($customer_id,$request);
@@ -68,7 +82,13 @@ class CustomerController extends Controller
         return to_route('customer');
     }
 
-    //削除
+
+    /**
+     * 論理削除
+     *
+     * @param [type] $customer_id
+     * @return void
+     */
     public function delete($customer_id){
 
         if(!empty($customer_id)){

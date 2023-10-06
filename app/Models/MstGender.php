@@ -9,7 +9,5 @@ class MstGender extends Model
 {
     use HasFactory;
 
-    public function get_list(){
-        return $this->all();
-    }
+
 }

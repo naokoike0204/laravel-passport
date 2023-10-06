@@ -16,12 +16,4 @@ class CustomerHobby extends Model
         'hobby_id'
     ];
 
-    public function InsertHobby(Request $request){
-
-    }
-
-    public function UpdateHobby($hobby_id,Request $request){
-
-    }
-
 }

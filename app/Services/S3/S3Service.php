@@ -8,7 +8,13 @@ use Illuminate\Support\Facades\Storage;
 class S3Service{
 
 
-    //S3にファイルを格納する
+
+    /**
+     * S3にファイルを格納する
+     *
+     * @param Request $request
+     * @return string|false
+     */
     public function addS3File($request){
          // アップロードされたファイルを変数に格納
       $upload_file = $request->file('image');
@@ -39,7 +45,14 @@ class S3Service{
       }
     }
 
-    //一時URLの取得
+
+    /**
+     * 一時URLの取得
+     *
+     * @param string $s3ImageUrl
+     * @param integer $timeMinutes
+     * @return string
+     */
     public function getS3FileTemporaryUrl($s3ImageUrl,$timeMinutes=5){
         return Storage::disk('s3')->temporaryUrl(
             $s3ImageUrl, now()->addMinutes($timeMinutes)

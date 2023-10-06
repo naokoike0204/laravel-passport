@@ -36,13 +36,24 @@ class CustomerService{
 
     }
 
-    //顧客一覧
+
+    /**
+     * 顧客一覧
+     *
+     * @param integer $paginate_count
+     * @return object
+     */
     public function getCustomerAll($paginate_count=15){
         return $this->customerRepository->getCustomerAll($paginate_count);
     }
 
 
-    //顧客の詳細データ取得
+    /**
+     * 顧客の詳細データ取得
+     *
+     * @param integer $customer_id
+     * @return object
+     */
     public function getCustomerIdFirst($customer_id=0){
             if($customer_id){
             $customer = $this->customerRepository->getCustomerIdFirst($customer_id);
@@ -53,12 +64,15 @@ class CustomerService{
                 $hobby_list[]=$hobby->id;
             }
             $customer->hobby_id = $hobby_list;
-            $customer->image_url = $this->S3service->getS3FileUrl($customer->image,10);
+            $customer->image_url = $this->S3service->getS3FileTemporaryUrl($customer->image,10);
             return $customer;
+        }else{
+           return (object)[];
         }
     }
 
     //性別一覧
+
     public function getGenderList(){
        return  $this->mstGenderRepository->GetList();
     }

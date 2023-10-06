@@ -13,6 +13,12 @@ class MstPrefectureController extends Controller
 
     }
 
+    /**
+     * 都道府県の一覧を取得：SELECT2から呼ばれるAPI用
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function get(Request $request): JsonResponse{
 
         $customerService = app()->make('CustomerService');
