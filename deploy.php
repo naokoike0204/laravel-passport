@@ -29,7 +29,7 @@ set('clear_paths', []);
 host('laravel.test')
    // ->stage('production')
     //->user('ec2-user')
-    ->set('branch', 'master')
+    ->set('branch', 'main')
     ->set('deploy_path', '/var/www/{{application}}');
 
 // Testing Server
