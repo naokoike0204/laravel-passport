@@ -26,7 +26,7 @@ set('clear_paths', []);
 
 // Hosts
 
-host('laravel.test')
+host('laravel.test2')
    // ->stage('production')
     //->user('ec2-user')
     ->set('branch', 'main')
