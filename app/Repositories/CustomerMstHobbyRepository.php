@@ -1,10 +1,11 @@
 <?php
 namespace App\Repositories;
 
-use App\Interfaces\CustomerHobbyRepositoryInterface;
-use App\Models\CustomerHobby;
+use App\Interfaces\CustomerMstHobbyRepositoryInterface;
+use App\Models\Customer;
+use App\Models\CustomerMstHobby;
 
-class CustomerHobbyRepository implements CustomerHobbyRepositoryInterface
+class CustomerMstHobbyRepository implements CustomerMstHobbyRepositoryInterface
 {
 
 
@@ -14,11 +15,13 @@ class CustomerHobbyRepository implements CustomerHobbyRepositoryInterface
      * @param integer $customer_id
      * @return object
      */
-    public function getCustomerHobbyList($customer_id=0){
+    public function getList(int $customer_id=0){
         if($customer_id){
-            return CustomerHobby::select('mst_hobbies.id')->join('mst_hobbies', 'mst_hobbies.id', '=', 'customers_hobbies.hobby_id')->where('customer_id','=',$customer_id)->get();
+            $customerMstHobby = Customer::find($customer_id)->mstHobbies()->get();
+
+            return $customerMstHobby;
         }else{
-            return (object)[];
+            return new CustomerMstHobby();
         }
     }
 
@@ -30,12 +33,12 @@ class CustomerHobbyRepository implements CustomerHobbyRepositoryInterface
      * @param array $hobby_id
      * @return void
      */
-    public function insertCustomerHobby($customer_id,$hobby_id=[]){
+    public function insert(int $customer_id,array $hobby_id=[]){
         if(!empty($hobby_id) && !empty($customer_id)){
             foreach($hobby_id as $hobby){
-                CustomerHobby::create([
+                CustomerMstHobby::create([
                     "customer_id"=>$customer_id,
-                    "hobby_id"=>$hobby
+                    "mst_hobby_id"=>$hobby
                 ]);
             }
         }
@@ -49,14 +52,14 @@ class CustomerHobbyRepository implements CustomerHobbyRepositoryInterface
      * @param array $hobby_id
      * @return void
      */
-    public function updateCustomerHobby($customer_id,$hobby_id=[]){
+    public function update(int $customer_id,array $hobby_id=[]){
         if(!empty($customer_id)){
-            CustomerHobby::where('customer_id', $customer_id)->delete();
+            CustomerMstHobby::where('customer_id', $customer_id)->delete();
             if(!empty($hobby_id)){
                 foreach($hobby_id as $hobby){
-                    CustomerHobby::create([
+                    CustomerMstHobby::create([
                         "customer_id"=>$customer_id,
-                        "hobby_id"=>$hobby
+                        "mst_hobby_id"=>$hobby
                     ]);
                 }
             }

@@ -3,6 +3,6 @@
 namespace App\Interfaces;
 
 interface MstPrefectureRepositoryInterface{
-    public function getList($request);
-    public function getPrefectureFirst($prefecture_id);
+    public function getList(string $request);
+    public function getFirst(int $prefecture_id);
 }

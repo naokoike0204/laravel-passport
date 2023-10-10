@@ -7,13 +7,18 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use App\Http\Requests\CustomerRequest;
+use App\Services\Customer\CustomerService;
 
 class CustomerController extends Controller
 {
 
-    public function __construct()
+    private $customerService;
+    public function __construct(
+        CustomerService $customerService,
+    )
     {
 
+        $this->customerService = $customerService;
     }
 
 
@@ -24,10 +29,8 @@ class CustomerController extends Controller
      */
     public function index():View{
 
-        $customerService = app()->make('CustomerService');
-
         if (Auth::check()) {
-            $customers = $customerService->getCustomerAll(3);
+            $customers = $this->customerService->getCustomerAll(3);
         }else{
             $customers = [];
         }
@@ -42,15 +45,15 @@ class CustomerController extends Controller
      * @param integer $customer_id
      * @return View
      */
-    public function edit($customer_id=0){
+    public function edit(int $customer_id=0){
         if (Auth::check()) {
-            $customer = app()->make('CustomerService')->getCustomerIdFirst($customer_id);
+            $customer = $this->customerService->getCustomerIdFirst($customer_id);
 
         }else{
             $customer = [];
         }
-        $genders = app()->make('CustomerService')->getGenderList();
-        $hobbies = app()->make('CustomerService')->getHobbyList();
+        $genders = $this->customerService->getGenderList();
+        $hobbies = $this->customerService->getHobbyList();
 
 
         return view('customer.customer-edit', [
@@ -68,15 +71,13 @@ class CustomerController extends Controller
      * @param CustomerRequest $request
      * @return RedirectResponse
      */
-    public function update($customer_id=0, CustomerRequest $request):RedirectResponse{
+    public function update(int $customer_id=0, CustomerRequest $request):RedirectResponse{
 
-        // バリデーション済みデータの取得
-        $validated = $request->validated();
 
         if(!empty($customer_id)){
-            $registerCustomer = app()->make('CustomerService')->updateCustomerProfile($customer_id,$request);
+            $registerCustomer = $this->customerService->updateCustomerProfile($customer_id,$request);
         }else{
-            $registerCustomer = app()->make('CustomerService')->insertCustomerProfile($request);
+            $registerCustomer = $this->customerService->insertCustomerProfile($request);
         }
 
         return to_route('customer');
@@ -86,13 +87,13 @@ class CustomerController extends Controller
     /**
      * 論理削除
      *
-     * @param [type] $customer_id
+     * @param integer $customer_id
      * @return void
      */
-    public function delete($customer_id){
+    public function delete(int $customer_id){
 
         if(!empty($customer_id)){
-            $registerCustomer = app()->make('CustomerService')->deleteCustomerProfile($customer_id);
+            $registerCustomer = $this->customerService->deleteCustomerProfile($customer_id);
         }
         return to_route('customer');
     }

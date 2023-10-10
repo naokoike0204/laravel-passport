@@ -8,7 +8,7 @@ require 'recipe/laravel.php';
 set('application', 'laravel-passport');
 
 // Project repository
-set('repository', 'https://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@github.com/naokoike0204/laravel-passport.git');
+set('repository', 'https://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@github.com/naokoike0204/laravel-passport.git');
 
 
 // [Optional] Allocate tty for git clone. Default value is false.

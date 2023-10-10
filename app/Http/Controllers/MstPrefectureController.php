@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\MstPrefecture;
+use App\Services\Customer\CustomerService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MstPrefectureController extends Controller
 {
-    public function __construct()
+    private $customerService;
+    public function __construct(
+        CustomerService $customerService,
+    )
     {
 
+        $this->customerService = $customerService;
     }
 
     /**
@@ -21,8 +26,7 @@ class MstPrefectureController extends Controller
      */
     public function get(Request $request): JsonResponse{
 
-        $customerService = app()->make('CustomerService');
-        $prefectures = $customerService->getPrefectureList($request->q);
+        $prefectures = $this->customerService->getPrefectureList($request->q??'');
 
         return response()->json($prefectures);
     }

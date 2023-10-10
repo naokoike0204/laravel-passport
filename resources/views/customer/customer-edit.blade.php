@@ -68,6 +68,8 @@
                         </div>
                         <label class="block">
                             <span class="sr-only">ファイルを選択</span>
+                            <input type="hidden" name="image" value="{{$customer->image??''}}">
+
                             <input name="image" type="file"
                                 class="block w-full text-sm text-slate-500
                                 file:mr-4 file:py-2 file:px-4

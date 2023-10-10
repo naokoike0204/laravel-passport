@@ -1,8 +1,9 @@
 <?php
 namespace App\Services\Customer;
 
+use App\Http\Requests\CustomerRequest;
 use App\Models\MstGender;
-use App\Repositories\CustomerHobbyRepository;
+use App\Repositories\CustomerMstHobbyRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\MstGenderRepository;
 use App\Repositories\MstHobbyRepository;
@@ -12,7 +13,7 @@ Use App\Services\S3\S3Service;
 class CustomerService{
 
     private $customerRepository;
-    private $customerHobbyRepository;
+    private $customerMstHobbyRepository;
     private $mstGenderRepository;
     private $mstHobbyRepository;
     private $mstPrefectureRepository;
@@ -20,7 +21,7 @@ class CustomerService{
 
     public function __construct(
         CustomerRepository $customerRepository,
-        CustomerHobbyRepository $customerHobbyRepository,
+        CustomerMstHobbyRepository $customerMstHobbyRepository,
         MstGenderRepository $mstGenderRepository,
         MstHobbyRepository $mstHobbyRepository,
         MstPrefectureRepository $mstPrefectureRepository,
@@ -28,7 +29,7 @@ class CustomerService{
     )
     {
         $this->customerRepository = $customerRepository;
-        $this->customerHobbyRepository = $customerHobbyRepository;
+        $this->customerMstHobbyRepository = $customerMstHobbyRepository;
         $this->mstGenderRepository = $mstGenderRepository;
         $this->mstHobbyRepository = $mstHobbyRepository;
         $this->mstPrefectureRepository = $mstPrefectureRepository;
@@ -43,8 +44,8 @@ class CustomerService{
      * @param integer $paginate_count
      * @return object
      */
-    public function getCustomerAll($paginate_count=15){
-        return $this->customerRepository->getCustomerAll($paginate_count);
+    public function getCustomerAll(int $paginate_count=15){
+        return $this->customerRepository->getAll($paginate_count);
     }
 
 
@@ -54,11 +55,11 @@ class CustomerService{
      * @param integer $customer_id
      * @return object
      */
-    public function getCustomerIdFirst($customer_id=0){
+    public function getCustomerIdFirst(int $customer_id=0){
             if($customer_id){
-            $customer = $this->customerRepository->getCustomerIdFirst($customer_id);
-            $hobby_id = $this->customerHobbyRepository->getCustomerHobbyList($customer_id);
-            $customer->prefecture_name = $this->mstPrefectureRepository->getPrefectureFirst($customer->prefecture_id);
+            $customer = $this->customerRepository->getFirst($customer_id);
+            $hobby_id = $this->customerMstHobbyRepository->getList($customer_id);
+            $customer->prefecture_name = $this->mstPrefectureRepository->getFirst($customer->prefecture_id);
             $hobby_list = [];
             foreach($hobby_id as $hobby){
                 $hobby_list[]=$hobby->id;
@@ -84,35 +85,35 @@ class CustomerService{
 
 
     //顧客詳細の新規登録
-    public function insertCustomerProfile($request){
+    public function insertCustomerProfile(CustomerRequest $request){
         $s3_image_path = $this->S3service->addS3File($request);
         if($s3_image_path){
             $request->image = $s3_image_path;
         }
-        $customer = $this->customerRepository->insertCustomerProfile($request);
-        $this->customerHobbyRepository->insertCustomerHobby($customer->id,$request->hobby_id);
+        $customer = $this->customerRepository->insert($request);
+        $this->customerMstHobbyRepository->insert($customer->id,$request->hobby_id);
         return $customer;
     }
 
     //顧客詳細の更新
-    public function updateCustomerProfile($customer_id,$request){
+    public function updateCustomerProfile(int $customer_id,CustomerRequest $request){
         $s3_image_path = $this->S3service->addS3File($request);
         if($s3_image_path){
             $request->image = $s3_image_path;
         }
-        $customer = $this->customerRepository->updateCustomerProfile($customer_id,$request);
-        $this->customerHobbyRepository->updateCustomerHobby($customer_id,$request->hobby_id);
+        $customer = $this->customerRepository->update($customer_id,$request);
+        $this->customerMstHobbyRepository->update($customer_id,$request->hobby_id);
         return $customer;
     }
 
     //都道府県一覧
-    public function getPrefectureList($request){
+    public function getPrefectureList(string $request){
         return $this->mstPrefectureRepository->getList($request);
     }
 
     //顧客データ削除
-    public function deleteCustomerProfile($customer_id){
-        return $this->customerRepository->deleteCustomerprofile($customer_id);
+    public function deleteCustomerProfile(int $customer_id){
+        return $this->customerRepository->delete($customer_id);
     }
 
 

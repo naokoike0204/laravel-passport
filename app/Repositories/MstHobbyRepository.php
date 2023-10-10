@@ -11,7 +11,7 @@ class MstHobbyRepository implements MstHobbyRepositoryInterface
     /**
      * 趣味一覧を取得
      *
-     * @return void
+     * @return object
      */
     public function getList(){
         return MstHobby::all();

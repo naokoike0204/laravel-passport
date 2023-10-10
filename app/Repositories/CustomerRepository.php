@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\CustomerRequest;
 use App\Interfaces\CustomerRepositoryInterface;
 use App\Models\Customer;
 use App\Models\CustomerHobby;
@@ -18,7 +19,7 @@ class CustomerRepository implements CustomerRepositoryInterface
      * @param integer $paginate_count
      * @return object
      */
-    public function getCustomerAll($paginate_count){
+    public function getAll(int $paginate_count){
         return Customer::paginate($paginate_count);
     }
 
@@ -30,11 +31,11 @@ class CustomerRepository implements CustomerRepositoryInterface
      * @param integer $customer_id
      * @return object
      */
-    public function getCustomerIdFirst($customer_id=0){
+    public function getFirst(int $customer_id=0){
         if($customer_id){
             return Customer::where('id','=',$customer_id)->first();
         }else{
-            return (object)[];
+            return new Customer;
         }
     }
 
@@ -42,10 +43,10 @@ class CustomerRepository implements CustomerRepositoryInterface
     /**
      * 登録処理
      *
-     * @param Request $request
-     * @return object
+     * @param CustomerRequest $request
+     * @return mixed
      */
-    public function insertCustomerProfile($request)
+    public function insert(CustomerRequest $request)
     {
         // リクエストデータを基に管理マスターユーザーに登録する
         return Customer::create([
@@ -65,10 +66,10 @@ class CustomerRepository implements CustomerRepositoryInterface
      * 更新処理
      *
      * @param integer $customer_id
-     * @param Request $request
-     * @return void
+     * @param CustomerRequest $request
+     * @return mixed
      */
-    public function updateCustomerProfile($customer_id,$request)
+    public function update(int $customer_id,CustomerRequest $request)
     {
         $customer = Customer::find($customer_id);
         $customer->fill([
@@ -91,7 +92,7 @@ class CustomerRepository implements CustomerRepositoryInterface
      * @param integer $customer_id
      * @return true
      */
-    public function deleteCustomerProfile($customer_id){
+    public function delete(int $customer_id){
         $customer = Customer::where('id','=',$customer_id)->first();
       if(!empty($customer)){
         $customer->delete();
