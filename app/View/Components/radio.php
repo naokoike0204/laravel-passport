@@ -19,6 +19,9 @@ class radio extends Component
         public string $value
     )
     {
+        $this->lists = $lists;
+        $this->name = $name;
+        $this->value = $value;
     }
 
     /**

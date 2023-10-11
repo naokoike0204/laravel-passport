@@ -18,7 +18,10 @@ class checkbox extends Component
         public string $name2
     )
     {
-        //
+        $this->lists = $lists;
+        $this->name = $name;
+        $this->value = $value;
+        $this->name2 = $name2;
     }
 
     /**

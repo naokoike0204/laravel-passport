@@ -54,14 +54,15 @@ class CustomerController extends Controller
         }
         $genders = $this->customerService->getGenderList();
         $hobbies = $this->customerService->getHobbyList();
+        $prefecture_name = $customer->prefecture_name->name ?? '';
 
 
-        return view('customer.customer-edit', [
-            "customer" => $customer,
-            "genders"=>$genders,
-            "hobbies"=>$hobbies,
-            "prefecture_name"=>$customer->prefecture_name->name ?? ''
-        ]);
+        return view('customer.customer-edit', compact(
+            "customer",
+            "genders",
+            "hobbies",
+            "prefecture_name",
+        ));
     }
 
     /**

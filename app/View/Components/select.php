@@ -18,7 +18,10 @@ class select extends Component
         public string $valueName,
     )
     {
-
+        $this->name = $name;
+        $this->route = $route;
+        $this->value = $value;
+        $this->valueName = $valueName;
     }
 
     /**
