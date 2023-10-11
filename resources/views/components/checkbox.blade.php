@@ -1,4 +1,4 @@
-@props(['value' => [],'lists'=>[]])
+@props(['value' => [],'lists'=>[],'name'=>''])
 <div>
     <fieldset class="mx-auto bg-white p-8 text-sm shadow">
         @foreach($lists as $list)

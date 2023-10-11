@@ -1,4 +1,4 @@
-@props(['value' => '','valueName' => ''])
+@props(['value' => '','valueName' => '','name'=>''])
 <div>
     <select class="form-control" name={{$name}} id="search" {!! $attributes->merge(['class' => 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm']) !!}>
         <option value="{{$value}}" selected="selected">{{$valueName}}</option>

@@ -56,6 +56,15 @@ task('deploy:dotenv', function () {
     writeln("uploaded {$src} to {$hostname}:{$dst}");
 });
 
+// リリースディレクトリのパーミッション調整
+//　（clone時にパーミッションが ec2-user:ec2-user となるため）
+task('release-permission', function () {
+    desc('[release-permission] task starting...');
+    run('sudo chown -R apache. {{release_path}}');
+    desc('[release-permission] task has been completed.');
+});
+
+
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
