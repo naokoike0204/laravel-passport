@@ -3,9 +3,12 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+
 use Illuminate\Database\Seeder;
 use Database\Seeders\MstPrefectureSeeder;
 use Database\Seeders\MstHobbySeeder;
+use Database\Seeders\MstGendersSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,6 +18,7 @@ class DatabaseSeeder extends Seeder
     private const SEEDERS = [
         MstPrefectureSeeder::class,
         MstHobbySeeder::class,
+        MstGendersSeeder::class,
     ];
     public function run(): void
     {
