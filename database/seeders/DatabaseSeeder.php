@@ -12,6 +12,7 @@ use Database\Seeders\MstGendersSeeder;
 
 class DatabaseSeeder extends Seeder
 {
+
     /**
      * Seed the application's database.
      */
