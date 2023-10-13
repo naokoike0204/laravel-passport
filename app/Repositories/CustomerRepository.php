@@ -32,11 +32,10 @@ class CustomerRepository implements CustomerRepositoryInterface
      * @return object
      */
     public function getFirst(int $customer_id=0){
-        if($customer_id){
-            return Customer::find($customer_id);
-        }else{
+        if(empty($customer_id)){
             return new Customer;
         }
+        return Customer::find($customer_id);
     }
 
 

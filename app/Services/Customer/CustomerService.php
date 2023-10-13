@@ -112,6 +112,14 @@ class CustomerService{
         return $this->mstPrefectureRepository->getList($request);
     }
 
+    public function getPrefectureName(int $prefecture_id=0) {
+        if(empty($prefecture_id)){
+            return '';
+        }
+        $mstPrefecture = $this->mstPrefectureRepository->getFirst($prefecture_id);
+        return $mstPrefecture->name;
+    }
+
     //顧客データ削除
     public function deleteCustomerProfile(int $customer_id){
         return $this->customerRepository->delete($customer_id);

@@ -16,13 +16,12 @@ class CustomerMstHobbyRepository implements CustomerMstHobbyRepositoryInterface
      * @return object
      */
     public function getList(int $customer_id=0){
-        if($customer_id){
-            $customerMstHobby = Customer::find($customer_id)->mstHobbies()->get();
-
-            return $customerMstHobby;
-        }else{
+        if(empty($customer_id)){
             return new CustomerMstHobby();
         }
+        $customerMstHobby = Customer::find($customer_id)->mstHobbies()->get();
+        return $customerMstHobby;
+
     }
 
 

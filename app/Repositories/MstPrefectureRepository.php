@@ -16,11 +16,11 @@ class MstPrefectureRepository implements MstPrefectureRepositoryInterface
      * @return void
      */
     public function getList(string $request){
-        if(!empty($request)){//入力された文字で検索
-            return MstPrefecture::where('name', 'LIKE', '%'.$request.'%')->limit(1)->get();
-        }else{//全件取得
+        if(empty($request)){
             return MstPrefecture::all();
         }
+            //入力された文字で検索
+        return MstPrefecture::where('name', 'LIKE', '%'.$request.'%')->limit(1)->get();
 
     }
 

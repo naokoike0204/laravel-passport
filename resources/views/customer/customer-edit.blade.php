@@ -22,24 +22,44 @@
 
                     <div>
                         <x-input-label for="name" :value="__('名前')" />
+                       @if ($customer->id==0)
+                       <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
+                       :value="old('name')" required autofocus autocomplete="name" />
+                       @else
                         <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
-                            :value="old('name', $customer->name ?? '')" required autofocus autocomplete="name" />
+                        :value="old('name', $customer->name ?? '')" required autofocus autocomplete="name" />
+                        @endif
                         <x-input-error class="mt-2" :messages="$errors->get('name')" />
                     </div>
                     <div>
                         <x-input-label for="age" :value="__('年齢')" />
+                        @if ($customer->id==0)
                         <x-text-input id="age" name="age" type="text" class="mt-1 block w-full"
+                            :value="old('age')" required autofocus autocomplete="age" />
+                            @else
+                            <x-text-input id="age" name="age" type="text" class="mt-1 block w-full"
                             :value="old('age', $customer->age ?? '')" required autofocus autocomplete="age" />
-                        <x-input-error class="mt-2" :messages="$errors->get('age')" />
+
+                            @endif
+
+                            <x-input-error class="mt-2" :messages="$errors->get('age')" />
                     </div>
                     <div>
                         <x-input-label for="gender_id" :value="__('性別')" />
-                        <x-radio name="gender_id" :lists="$genders" :value="old('gender_id', $customer->gender_id ?? '')"/>
-                        <x-input-error class="mt-2" :messages="$errors->get('name')" />
+                        @if ($customer->id==0)
+                        <x-radio name="gender_id" :lists="$genders" :value="old('gender_id')??''"/>
+                            @else
+                            <x-radio name="gender_id" :lists="$genders" :value="old('gender_id', $customer->gender_id ?? '')"/>
+                            @endif
+                            <x-input-error class="mt-2" :messages="$errors->get('name')" />
                     </div>
                     <div>
                         <x-input-label for="name" :value="__('住所')" />
+                        @if ($customer->id==0)
+                        <x-select name="prefecture_id" route="prefecture" :value="old('prefecture_id')??''" :valueName="$prefecture_name" style="width:100px;"/>
+                        @else
                         <x-select name="prefecture_id" route="prefecture" :value="old('prefecture_id', $customer->prefecture_id ?? '')" :valueName="$prefecture_name" style="width:100px;"/>
+                        @endif
                         <x-input-error class="mt-2" :messages="$errors->get('prefecture_id')" />
                             <x-text-input id="address" name="address" type="text" class="mt-1 block w-full"
                             :value="old('address', $customer->address??'')" required autofocus autocomplete="address" />
@@ -47,7 +67,11 @@
                     </div>
                     <div>
                         <x-input-label for="name" :value="__('趣味')" />
-                        <x-checkbox name="hobby_id[]" :lists="$hobbies" :value="old('hobby_id[]', $customer->hobby_id ?? [])" name2="hobby_id" />
+                        @if ($customer->id==0)
+                        <x-checkbox name="hobby_id[]" :lists="$hobbies" :value="old('hobby_id')??[]" name2="hobby_id" />
+                        @else
+                        <x-checkbox name="hobby_id[]" :lists="$hobbies" :value="old('hobby_id', $customer->hobby_id ?? [])" name2="hobby_id" />
+                        @endif
                         <x-input-error class="mt-2" :messages="$errors->get('hobby_id')" />
                     </div>
                     <div>
@@ -69,6 +93,7 @@
                         <label class="block">
                             <span class="sr-only">ファイルを選択</span>
                             <input type="hidden" name="image" value="{{$customer->image??''}}">
+                            <x-input-error class="mt-2" :messages="$errors->get('image')" />
 
                             <input name="image" type="file"
                                 class="block w-full text-sm text-slate-500
