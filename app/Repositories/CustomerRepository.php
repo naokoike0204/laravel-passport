@@ -33,7 +33,7 @@ class CustomerRepository implements CustomerRepositoryInterface
      */
     public function getFirst(int $customer_id=0){
         if($customer_id){
-            return Customer::where('id','=',$customer_id)->first();
+            return Customer::find($customer_id);
         }else{
             return new Customer;
         }
@@ -56,7 +56,7 @@ class CustomerRepository implements CustomerRepositoryInterface
             'prefecture_id' => $request->prefecture_id,
             'address' => $request->address,
             'pr_description' => $request->pr_description,
-            'image' => $request->image,
+            'image' => $request->image??'',
         ]);
 
     }

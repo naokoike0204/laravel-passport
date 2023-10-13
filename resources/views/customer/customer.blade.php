@@ -15,7 +15,7 @@
             <li class="group/item relative flex items-center justify-between bg-white border border-gray-200 bg-white shadow-lg space-y-2 sm:space-y-0 sm:space-x-6 sm:py-4 p-4 hover:bg-slate-100">
                 <div class="flex gap-4">
                   <div class="flex-shrink-0">
-                    <img class="h-16 w-16 object-cover rounded-full" src="{{$S3->getS3FileTemporaryUrl($customer->image,10)}}" alt="">
+                    <img class="h-16 w-16 object-cover rounded-full" src="@if(!empty($customer->image)){{$S3->getS3FileTemporaryUrl($customer->image,10)}}@endif" alt="">
                   </div>
                   <div class="w-full text-sm leading-6">
                     <a href="{{ route('customer.edit', ['customer_id' => $customer->id]) }}" class="font-semibold text-slate-900"><span class="absolute inset-0 rounded-xl" aria-hidden="true"></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$customer->name}}</font></font></a>

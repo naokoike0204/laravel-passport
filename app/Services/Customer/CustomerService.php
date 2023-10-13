@@ -2,6 +2,7 @@
 namespace App\Services\Customer;
 
 use App\Http\Requests\CustomerRequest;
+use App\Models\Customer;
 use App\Models\MstGender;
 use App\Repositories\CustomerMstHobbyRepository;
 use App\Repositories\CustomerRepository;
@@ -68,7 +69,7 @@ class CustomerService{
             $customer->image_url = $this->S3service->getS3FileTemporaryUrl($customer->image,10);
             return $customer;
         }else{
-           return (object)[];
+           return new Customer();
         }
     }
 

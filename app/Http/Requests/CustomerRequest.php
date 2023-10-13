@@ -29,6 +29,7 @@ class CustomerRequest extends FormRequest
             'address' => 'required|max:255',
             'pr_description' => 'required|max:2000',
             'hobby_id.*' =>'integer|distinct',
+            'image' => 'required',
         ];
     }
 }

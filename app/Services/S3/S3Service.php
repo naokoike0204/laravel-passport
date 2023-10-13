@@ -53,10 +53,12 @@ class S3Service{
      * @param integer $timeMinutes
      * @return string
      */
-    public function getS3FileTemporaryUrl($s3ImageUrl,$timeMinutes=5){
-        return Storage::disk('s3')->temporaryUrl(
-            $s3ImageUrl, now()->addMinutes($timeMinutes)
-        );
+    public function getS3FileTemporaryUrl($s3ImageUrl='',$timeMinutes=5){
+        if(!empty($s3ImageUrl)){
+            return Storage::disk('s3')->temporaryUrl(
+                $s3ImageUrl, now()->addMinutes($timeMinutes)
+            );
+        }
     }
 
 
